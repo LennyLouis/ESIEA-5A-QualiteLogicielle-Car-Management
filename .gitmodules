@@ -1,0 +1,6 @@
+[submodule "ESIEA-5A-QualiteLogicielle-Car-Management-Back"]
+	path = ESIEA-5A-QualiteLogicielle-Car-Management-Back
+	url = https://github.com/lennylouis/ESIEA-5A-QualiteLogicielle-Car-Management-Back.git
+[submodule "ESIEA-5A-QualiteLogicielle-Car-Management-Front"]
+	path = ESIEA-5A-QualiteLogicielle-Car-Management-Front
+	url = https://github.com/lennylouis/ESIEA-5A-QualiteLogicielle-Car-Management-Front.git

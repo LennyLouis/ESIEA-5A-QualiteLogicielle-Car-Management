@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: stockcar
+      MYSQL_USER: stockcar
+      MYSQL_PASSWORD: stockcar
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./ESIEA-5A-QualiteLogicielle-Car-Management-Back/src/main/resources/init.sql:/docker-entrypoint-initdb.d/init.sql
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  backend:
+    build:
+      context: ./ESIEA-5A-QualiteLogicielle-Car-Management-Back
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - BDD_SERVEUR=db
+      - BDD_PORT=3306
+      - BDD_NOM=stockcar
+      - BDD_UTILISATEUR=stockcar
+      - BDD_MDP=stockcar
+    volumes:
+      - ./ESIEA-5A-QualiteLogicielle-Car-Management-Back/src/main/resources/conf.properties:/usr/local/tomcat/webapps/ROOT/META-INF/conf.properties
+
+  frontend:
+    build:
+      context: ./ESIEA-5A-QualiteLogicielle-Car-Management-Front
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+volumes:
+  db_data:
